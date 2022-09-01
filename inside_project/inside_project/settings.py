@@ -1,3 +1,4 @@
+import os
 from datetime import timedelta
 from pathlib import Path
 
@@ -14,8 +15,13 @@ SECRET_KEY = "django-insecure-8%8tx7gr1wcxptb0k*k0z^y@gm(%iixo6@0s)-=v3ja1p3bnl8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "testserver",
+]
 
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1/*"]
 
 # Application definition
 
@@ -108,6 +114,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
