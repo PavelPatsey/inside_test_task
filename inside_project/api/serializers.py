@@ -19,8 +19,7 @@ class MessageSerializer(serializers.ModelSerializer):
             User,
             username=validated_data["name"]["username"],
         )
-        message = Message.objects.create(
+        return Message.objects.create(
             name=name,
             message=validated_data["message"],
         )
-        return message

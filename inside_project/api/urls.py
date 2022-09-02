@@ -1,6 +1,8 @@
-from django.urls import include, path
-from rest_framework_simplejwt.views import (TokenObtainSlidingView,
-                                            TokenRefreshSlidingView)
+from django.urls import path
+from rest_framework_simplejwt.views import (
+    TokenObtainSlidingView,
+    TokenRefreshSlidingView,
+)
 
 from .views import APIMessage
 

@@ -51,7 +51,6 @@ class MessageTest(TestCase):
         data = {"name": name, "message": f"history {messages_number}"}
         response = self.authorized_client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        # breakpoint()
         test_json = [
             {"name": "authorized_user", "message": "test message text 14"},
             {"name": "authorized_user", "message": "test message text 13"},
