@@ -22,7 +22,7 @@ class TestCaseBase(TestCase):
         user = User.objects.create_user(username="test_user")
         client = APIClient()
         refresh = RefreshToken.for_user(user)
-        client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
+        client.credentials(HTTP_AUTHORIZATION=f"Bearer_{refresh.access_token}")
 
         url = "/api/messages/"
         name = user.username
