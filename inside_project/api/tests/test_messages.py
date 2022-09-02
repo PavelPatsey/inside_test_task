@@ -31,10 +31,14 @@ class MessageTest(TestCase):
     def test_post_message_authorized_user(self):
         """Создание сообщения авторизованным пользователем."""
         url = "/api/messages/"
+        count = Message.objects.count()
         name = self.user.username
         data = {"name": name, "message": "текст сообщения"}
         response = self.authorized_client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Message.objects.count(), count + 1)
+        test_json = {"name": "authorized_user", "message": "текст сообщения"}
+        self.assertEqual(response.json(), test_json)
 
     def test_post_message_with_non_existent_username(self):
         """Создание сообщения с несущесвующим именеим пользователя."""
@@ -42,6 +46,8 @@ class MessageTest(TestCase):
         data = {"name": "invalid_name", "message": "текст сообщения"}
         response = self.authorized_client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        test_json = {"detail": "Not found."}
+        self.assertEqual(response.json(), test_json)
 
     def test_post_method_get_messages_authorized_user(self):
         """Получение сообщений авторизованным пользователем."""
@@ -58,4 +64,28 @@ class MessageTest(TestCase):
             {"name": "authorized_user", "message": "test message text 11"},
             {"name": "authorized_user", "message": "test message text 10"},
         ]
+        self.assertEqual(response.json(), test_json)
+
+    def test_get_messages_with_invalid_date(self):
+        """Получение сообщений с невалидными данными."""
+        url = "/api/messages/"
+        name = self.user.username
+        messages_number = 5
+
+        data = {"name": name, "message": f"history {messages_number} 1"}
+        response = self.authorized_client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        test_json = {"name": "authorized_user", "message": "history 5 1"}
+        self.assertEqual(response.json(), test_json)
+
+        data = {"name": name, "message": f"story {messages_number}"}
+        response = self.authorized_client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        test_json = {"name": "authorized_user", "message": "story 5"}
+        self.assertEqual(response.json(), test_json)
+
+        data = {"name": "non-existent_user", "message": f"history {messages_number}"}
+        response = self.authorized_client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        test_json = {"detail": "Not found."}
         self.assertEqual(response.json(), test_json)

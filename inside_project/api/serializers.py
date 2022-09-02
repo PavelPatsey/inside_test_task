@@ -14,6 +14,11 @@ class MessageSerializer(serializers.ModelSerializer):
             "message",
         ]
 
+    def validate_name(self, value):
+        """Пользователь должен существовать, иначе ошибка 404"""
+        get_object_or_404(User, username=value.lower())
+        return value.lower()
+
     def create(self, validated_data):
         name = get_object_or_404(
             User,
