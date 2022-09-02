@@ -1,7 +1,8 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import (AUTH_HEADER_TYPES,
+                                            TokenObtainPairView, TokenViewBase)
 
 from .models import Message
 from .serializers import MessageSerializer, MyTokenObtainSerializer
@@ -22,5 +23,12 @@ class APIMessage(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class MyTokenView(TokenObtainPairView):
+class MyTokenView(TokenViewBase):
     serializer_class = MyTokenObtainSerializer
+
+    def get_authenticate_header(self, request):
+        """Думаю как переписать."""
+        return '{0} realm="{1}"'.format(
+            AUTH_HEADER_TYPES[0],
+            self.www_authenticate_realm,
+        )
