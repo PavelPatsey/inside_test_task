@@ -9,7 +9,8 @@ class CustomJWTAuthentication(JWTAuthentication):
         Переопределил метод, чтобы заголовке Authorization токен
         передавался в формате Bearer_<полученный токен>.
         """
-        parts = header.split(b"_")
+        # бывает что "_" встречается в теле токена
+        parts = header.split(b"_", 1)
 
         if len(parts) == 0:
             return None
