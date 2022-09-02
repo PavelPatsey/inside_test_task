@@ -45,6 +45,13 @@ class MessageTest(TestCase):
         """Создание сообщения авторизованным пользователем."""
         url = "/api/messages/"
         name = self.user.username
-        data = {"name": name, "message": "текст сообщение"}
+        data = {"name": name, "message": "текст сообщения"}
         response = self.authorized_client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_post_message_with_non_existent_username(self):
+        """Создание сообщения с несущесвующим именеим пользователя."""
+        url = "/api/messages/"
+        data = {"name": "invalid_name", "message": "текст сообщения"}
+        response = self.authorized_client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

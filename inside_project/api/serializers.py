@@ -1,6 +1,7 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from .models import Message
+from .models import Message, User
 
 
 class MessageSerializer(serializers.ModelSerializer):
@@ -14,14 +15,12 @@ class MessageSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        # Уберем список достижений из словаря validated_data и сохраним его
-        # breakpoint()
-        # name = validated_data.pop('name')
-
-        # Создадим нового котика пока без достижений, данных нам достаточно
-        message = Message.objects.create(**validated_data)
-        # message = Message.objects.create(
-        #     name=validated_data["name"],
-        # )
-
+        name = get_object_or_404(
+            User,
+            username=validated_data["name"]["username"],
+        )
+        message = Message.objects.create(
+            name=name,
+            message=validated_data["message"],
+        )
         return message
