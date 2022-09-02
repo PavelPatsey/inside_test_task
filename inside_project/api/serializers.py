@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import Message, User
 
@@ -28,3 +30,18 @@ class MessageSerializer(serializers.ModelSerializer):
             name=name,
             message=validated_data["message"],
         )
+
+
+class MyTokenObtainSerializer(TokenObtainSerializer):
+    @classmethod
+    def get_token(cls, user):
+        return RefreshToken.for_user(user)
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        refresh = self.get_token(self.user)
+
+        data["token"] = str(refresh.access_token)
+
+        return data
