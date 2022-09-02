@@ -1,11 +1,13 @@
-from rest_framework import status
+from django.views.decorators.csrf import ensure_csrf_cookie
+from rest_framework import exceptions, status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.views import (AUTH_HEADER_TYPES,
-                                            TokenObtainPairView, TokenViewBase)
 
-from .models import Message
-from .serializers import MessageSerializer, MyTokenObtainSerializer
+from .models import Message, User
+from .serializers import MessageSerializer
+from .tokens import generate_access_token
 
 
 class APIMessage(APIView):
@@ -23,12 +25,19 @@ class APIMessage(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class MyTokenView(TokenViewBase):
-    serializer_class = MyTokenObtainSerializer
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def login_view(request):
+    username = request.data.get("username")
+    password = request.data.get("password")
+    if (username is None) or (password is None):
+        raise exceptions.AuthenticationFailed("username and password required")
 
-    def get_authenticate_header(self, request):
-        """Думаю как переписать."""
-        return '{0} realm="{1}"'.format(
-            AUTH_HEADER_TYPES[0],
-            self.www_authenticate_realm,
-        )
+    user = User.objects.filter(username=username).first()
+    if user is None:
+        raise exceptions.AuthenticationFailed("user not found")
+    if not user.check_password(password):
+        raise exceptions.AuthenticationFailed("wrong password")
+    access_token = generate_access_token(user)
+    data = {"token": access_token}
+    return Response(data, status=status.HTTP_200_OK)
