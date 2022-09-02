@@ -8,7 +8,7 @@ class Message(models.Model):
     name = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name="Автор",
+        verbose_name="Пользователь",
         related_name="messages",
     )
     message = models.TextField(
