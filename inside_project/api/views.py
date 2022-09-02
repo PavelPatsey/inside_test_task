@@ -25,10 +25,3 @@ class APIMessage(APIView):
 
 class MyTokenView(TokenViewBase):
     serializer_class = MyTokenObtainSerializer
-
-    def get_authenticate_header(self, request):
-        """Думаю как переписать."""
-        return '{0} realm="{1}"'.format(
-            AUTH_HEADER_TYPES[0],
-            self.www_authenticate_realm,
-        )
