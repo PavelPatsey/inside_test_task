@@ -84,7 +84,10 @@ class MessageTest(TestCase):
         test_json = {"name": "authorized_user", "message": "story 5"}
         self.assertEqual(response.json(), test_json)
 
-        data = {"name": "non-existent_user", "message": f"history {messages_number}"}
+        data = {
+            "name": "non-existent_user",
+            "message": f"history {messages_number}",
+        }
         response = self.authorized_client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         test_json = {"detail": "Not found."}

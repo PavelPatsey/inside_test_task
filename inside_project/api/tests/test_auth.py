@@ -44,5 +44,7 @@ class TestCaseBase(TestCase):
         data = {"name": name, "message": "текст сообщения"}
         response = client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-        test_json = {"detail": "Authentication credentials were not provided."}
+        test_json = {
+            "detail": "Authentication credentials were not provided."
+        }
         self.assertEqual(response.json(), test_json)
