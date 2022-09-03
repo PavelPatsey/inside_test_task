@@ -1,9 +1,9 @@
 from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APIClient
-from rest_framework_simplejwt.tokens import RefreshToken
 
 from ..models import User
+from ..tokens import generate_access_token
 
 
 class AuthTest(TestCase):
@@ -21,8 +21,8 @@ class TestCaseBase(TestCase):
         """Проверка заголовка запроса с полученным токеном."""
         user = User.objects.create_user(username="test_user")
         client = APIClient()
-        refresh = RefreshToken.for_user(user)
-        client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
+        access_token = generate_access_token(user)
+        client.credentials(HTTP_AUTHORIZATION=f"Bearer_{access_token}")
 
         url = "/api/messages/"
         name = user.username
