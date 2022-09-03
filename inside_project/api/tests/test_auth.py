@@ -70,3 +70,18 @@ class AuthTest(TestCase):
             "detail": "Authentication credentials were not provided."
         }
         self.assertEqual(response.json(), test_json)
+
+    def test_request_with_incorrect_token(self):
+        """Попытка сделать запрос с неправильным токеном."""
+        client = APIClient()
+        access_token = generate_access_token(self.user)
+        header = f"Bearer_{access_token}" + "123"
+        client.credentials(HTTP_AUTHORIZATION=header)
+
+        url = "/api/messages/"
+        name = self.user.username
+        data = {"name": name, "message": "текст сообщения"}
+        response = client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        test_json = {"detail": "Signature verification failed"}
+        self.assertEqual(response.json(), test_json)
