@@ -19,7 +19,7 @@ class CustomJWTAuthentication(BaseAuthentication):
         access_token = self.get_raw_token(authorization_header)
         if access_token is None:
             return None
-        
+
         payload = jwt.decode(
             access_token, settings.SECRET_KEY, algorithms=["HS256"]
         )
