@@ -16,7 +16,7 @@ services:
     image: pavelpatsey/inside_project:1
     restart: always
     volumes:
-      - static_value:/app_backend/static/
+      - static_value:/app/static/
     depends_on:
       - db
     env_file:
