@@ -8,7 +8,7 @@ User = get_user_model()
 
 
 class CustomJWTAuthentication(BaseAuthentication):
-    """Custom authentication class for DRF and JWT."""
+    """Custom authentication class."""
 
     def authenticate(self, request):
         authorization_header = request.headers.get("Authorization")
@@ -20,23 +20,12 @@ class CustomJWTAuthentication(BaseAuthentication):
         if access_token is None:
             return None
 
-        payload = jwt.decode(
-            access_token, settings.SECRET_KEY, algorithms=["HS256"]
-        )
-
-        user = User.objects.filter(id=payload["user_id"]).first()
-        if user is None:
-            raise exceptions.AuthenticationFailed("User not found")
-        if not user.is_active:
-            raise exceptions.AuthenticationFailed("User is inactive")
+        user = self.get_user(access_token)
 
         return (user, None)
 
     def get_raw_token(self, header):
-        """
-        Extracts an unvalidated JSON web token from the given "Authorization"
-        header value.
-        """
+        """Возвращает токен из заголовка "Authorization"."""
         # header format: "Bearer_<access_token>"
         parts = header.split("_", 1)
 
@@ -52,3 +41,28 @@ class CustomJWTAuthentication(BaseAuthentication):
             )
 
         return parts[1]
+
+    def get_user(self, access_token):
+        """Возвращает пользователя, соответствующего токену."""
+        payload = self.get_payload(access_token)
+
+        try:
+            user = User.objects.filter(id=payload["user_id"]).first()
+        except KeyError:
+            raise exceptions.AuthenticationFailed(
+                "Token contained no recognizable user identification"
+            )
+        if user is None:
+            raise exceptions.AuthenticationFailed("User not found")
+        if not user.is_active:
+            raise exceptions.AuthenticationFailed("User is inactive")
+
+        return user
+
+    def get_payload(self, access_token):
+        try:
+            return jwt.decode(
+                access_token, settings.SECRET_KEY, algorithms=["HS256"]
+            )
+        except jwt.exceptions.InvalidSignatureError as error:
+            raise exceptions.AuthenticationFailed(error)
