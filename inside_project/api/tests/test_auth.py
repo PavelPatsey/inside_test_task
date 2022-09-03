@@ -37,8 +37,8 @@ class AuthTest(TestCase):
             "password": "test_password",
         }
         response = self.guest_client.post(url, data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        test_json = {"name": ["User not found"]}
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        test_json = {"detail": "Not found."}
         self.assertEqual(response.json(), test_json)
 
     def test_token_obtain_without_username(self):
@@ -46,9 +46,8 @@ class AuthTest(TestCase):
         url = "/api/auth/token/"
         data = {"password": "test_password"}
         response = self.guest_client.post(url, data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        breakpoint()
-        test_json = {"name": ["This field is required."]}
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        test_json = {"detail": "Not found."}
         self.assertEqual(response.json(), test_json)
 
     def test_token_obtain_without_password(self):
@@ -81,7 +80,7 @@ class AuthTest(TestCase):
         response = self.guest_client.post(url, data, format="json")
         # breakpoint()
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        test_json = {"detail": "wrong password"}
+        test_json = {"password": ["Wrong password"]}
         self.assertEqual(response.json(), test_json)
 
     def test_request_header_with_token(self):

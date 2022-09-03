@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import exceptions, serializers
+from rest_framework import serializers
 
 from .models import Message, User
 
@@ -31,7 +31,10 @@ class MessageSerializer(serializers.ModelSerializer):
 
 
 class TokenObtainSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(source="name.username")
+    name = serializers.CharField(
+        source="name.username",
+        required=True,
+    )
 
     class Meta:
         model = User
@@ -42,19 +45,13 @@ class TokenObtainSerializer(serializers.ModelSerializer):
 
     def validate_name(self, value):
         """Валидация name."""
-        user = User.objects.filter(username=value.lower())
-        if not user:
-            raise serializers.ValidationError("User not found")
+        get_object_or_404(User, username=value.lower())
         return value.lower()
 
     def validate_password(self, value):
         """Валидация password."""
         lower_password = value.lower()
-        if self.initial_data.get("username") is None:
-            raise serializers.ValidationError(
-                "Нельзя делать запрос без username"
-            )
-        username = self.initial_data.get("username")
+        username = self.initial_data.get("name")
         user = get_object_or_404(User, username=username)
         if not user.check_password(lower_password):
             raise serializers.ValidationError("Wrong password")
