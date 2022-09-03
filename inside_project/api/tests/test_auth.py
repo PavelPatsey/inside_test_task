@@ -78,7 +78,6 @@ class AuthTest(TestCase):
         name = self.user.username
         data = {"name": name, "password": "incorrect_password"}
         response = self.guest_client.post(url, data, format="json")
-        # breakpoint()
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         test_json = {"password": ["Wrong password"]}
         self.assertEqual(response.json(), test_json)
