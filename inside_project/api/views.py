@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Message, User
-from .serializers import MessageSerializer
+from .serializers import MessageSerializer, TokenObtainSerializer
 from .tokens import generate_access_token
 
 
@@ -34,18 +34,30 @@ class TokenObtainView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        username = request.data.get("name")
-        password = request.data.get("password")
-        if (username is None) or (password is None):
-            raise exceptions.AuthenticationFailed(
-                "username and password required"
-            )
+        serializer = TokenObtainSerializer(data=request.data)
+        if serializer.is_valid():
+            breakpoint()
+            username = serializer.validated_data["name"]
+            user = User.objects.filter(username=username)
+            access_token = generate_access_token(user)
+            data = {"token": access_token}
+            return Response(data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        user = User.objects.filter(username=username).first()
-        if user is None:
-            raise exceptions.AuthenticationFailed("user not found")
-        if not user.check_password(password):
-            raise exceptions.AuthenticationFailed("wrong password")
-        access_token = generate_access_token(user)
-        data = {"token": access_token}
-        return Response(data, status=status.HTTP_200_OK)
+        # username = request.data.get("name")
+        # password = request.data.get("password")
+
+        # if (username is None) or (password is None):
+        #     raise exceptions.AuthenticationFailed(
+        #         "username and password required"
+        #     )
+
+        # user = User.objects.filter(username=username).first()
+        # if user is None:
+        #     raise exceptions.AuthenticationFailed("user not found")
+        # if not user.check_password(password):
+        #     raise exceptions.AuthenticationFailed("wrong password")
+
+        # access_token = generate_access_token(user)
+        # data = {"token": access_token}
+        # return Response(data, status=status.HTTP_200_OK)

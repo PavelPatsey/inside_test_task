@@ -37,8 +37,40 @@ class AuthTest(TestCase):
             "password": "test_password",
         }
         response = self.guest_client.post(url, data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        test_json = {"detail": "user not found"}
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        test_json = {"name": ["User not found"]}
+        self.assertEqual(response.json(), test_json)
+
+    def test_token_obtain_without_username(self):
+        """Получение токена без имени пользователя."""
+        url = "/api/auth/token/"
+        data = {"password": "test_password"}
+        response = self.guest_client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        breakpoint()
+        test_json = {"name": ["This field is required."]}
+        self.assertEqual(response.json(), test_json)
+
+    def test_token_obtain_without_password(self):
+        """Получение токена без пароля."""
+        url = "/api/auth/token/"
+        name = self.user.username
+        data = {"name": name}
+        response = self.guest_client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        test_json = {"password": ["This field is required."]}
+        self.assertEqual(response.json(), test_json)
+
+    def test_token_obtain_without_username_and_password(self):
+        """Получение токена без имени пользователя и пароля."""
+        url = "/api/auth/token/"
+        data = {}
+        response = self.guest_client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        test_json = {
+            "name": ["This field is required."],
+            "password": ["This field is required."],
+        }
         self.assertEqual(response.json(), test_json)
 
     def test_token_obtain_with_incorrect_password(self):
@@ -47,7 +79,8 @@ class AuthTest(TestCase):
         name = self.user.username
         data = {"name": name, "password": "incorrect_password"}
         response = self.guest_client.post(url, data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        # breakpoint()
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         test_json = {"detail": "wrong password"}
         self.assertEqual(response.json(), test_json)
 
