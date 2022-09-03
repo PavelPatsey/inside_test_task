@@ -31,3 +31,18 @@ class TestCaseBase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         test_json = {"name": "test_user", "message": "текст сообщения"}
         self.assertEqual(response.json(), test_json)
+
+    def test_request_with_incorrect_header(self):
+        """Неправильный заголовок запроса с полученным токеном."""
+        user = User.objects.create_user(username="test_user")
+        client = APIClient()
+        refresh = SlidingToken.for_user(user)
+        client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh}")
+
+        url = "/api/messages/"
+        name = user.username
+        data = {"name": name, "message": "текст сообщения"}
+        response = client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        test_json = {"detail": "Authentication credentials were not provided."}
+        self.assertEqual(response.json(), test_json)
