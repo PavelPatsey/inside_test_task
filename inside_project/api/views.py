@@ -27,7 +27,6 @@ class APIMessage(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-<<<<<<< HEAD
 
 
 @api_view(["POST"])
@@ -36,7 +35,9 @@ def login_view(request):
     username = request.data.get("username")
     password = request.data.get("password")
     if (username is None) or (password is None):
-        raise exceptions.AuthenticationFailed("username and password required")
+        raise exceptions.AuthenticationFailed(
+            "username and password required"
+        )
 
     user = User.objects.filter(username=username).first()
     if user is None:

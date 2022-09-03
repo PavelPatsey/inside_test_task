@@ -28,7 +28,7 @@ class AuthTest(TestCase):
     #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
     #     test_json = {"name": "test_user", "message": "текст сообщения"}
     #     self.assertEqual(response.json(), test_json)
-    
+
     def test_request_header_with_token(self):
         """Проверка заголовка запроса с полученным токеном."""
         client = APIClient()
@@ -54,5 +54,5 @@ class AuthTest(TestCase):
         data = {"name": name, "message": "текст сообщения"}
         response = client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        test_json = {'detail': 'Token prefix missing'}
+        test_json = {"detail": "Token prefix missing"}
         self.assertEqual(response.json(), test_json)
