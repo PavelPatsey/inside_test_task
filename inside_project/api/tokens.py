@@ -11,9 +11,8 @@ def generate_access_token(user):
         + settings.CUSTOM_JWT["ACCESS_TOKEN_LIFETIME"],
         "iat": datetime.datetime.utcnow(),
     }
-    access_token = jwt.encode(
+    return jwt.encode(
         access_token_payload,
         settings.SECRET_KEY,
         algorithm="HS256",
     )
-    return access_token

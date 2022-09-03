@@ -1,4 +1,3 @@
-from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import exceptions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -32,7 +31,7 @@ class APIMessage(APIView):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def login_view(request):
-    username = request.data.get("username")
+    username = request.data.get("name")
     password = request.data.get("password")
     if (username is None) or (password is None):
         raise exceptions.AuthenticationFailed(

@@ -23,8 +23,7 @@ class AuthTest(TestCase):
         """Получение токена."""
         url = "/api/auth/token/"
         name = self.user.username
-        # data = {"name": name, "message": "текст сообщения"}
-        data = {"username": name, "password": "test_password"}
+        data = {"name": name, "password": "test_password"}
         response = self.guest_client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(type(response.json()), dict)
@@ -33,14 +32,13 @@ class AuthTest(TestCase):
     def test_token_obtain_with_non_existent_username(self):
         """Получение токена с несуществующим именем пользователя."""
         url = "/api/auth/token/"
-        # data = {"name": name, "message": "текст сообщения"}
         data = {
-            "username": "non_existent_username",
+            "name": "non_existent_username",
             "password": "test_password",
         }
         response = self.guest_client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        test_json = {'detail': 'user not found'}
+        test_json = {"detail": "user not found"}
         self.assertEqual(response.json(), test_json)
 
     def test_request_header_with_token(self):
