@@ -1,19 +1,20 @@
 import os
-import sys
 from datetime import timedelta
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv("SECRET_KEY", default="django-insecure-SECRET_KEY")
+SECRET_KEY = (
+    "django-insecure-8%8tx7gr1wcxptb0k*k0z^y@gm(%iixo6@0s)-=v3ja1p3bnl8"
+)
 
 DEBUG = True
 
 ALLOWED_HOSTS = [
     "localhost",
+    "backend",
     "127.0.0.1",
     "testserver",
-    "backend",
 ]
 
 CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1/*"]
@@ -61,18 +62,10 @@ WSGI_APPLICATION = "inside_project.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": os.getenv("DB_ENGINE", "django.db.backends.postgresql"),
-        "NAME": os.getenv("DB_NAME", default="postgres"),
-        "USER": os.getenv("POSTGRES_USER", default="postgres"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD", default="password_123"),
-        "HOST": os.getenv("DB_HOST", default="db"),
-        "PORT": os.getenv("DB_PORT", default="5432"),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
-if "test" in sys.argv:
-    DATABASES["default"]["ENGINE"] = "django.db.backends.sqlite3"
-    DATABASES["default"]["NAME"] = ":memory:"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
