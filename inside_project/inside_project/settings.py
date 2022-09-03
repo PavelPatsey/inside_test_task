@@ -125,3 +125,11 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ("api.authentication.CustomJWTAuthentication",),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
 }
+
+CUSTOM_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(
+        days=0,
+        minutes=30,
+        seconds=0,
+    ),
+}
