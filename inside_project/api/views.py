@@ -1,5 +1,4 @@
 from rest_framework import exceptions, status
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -28,21 +27,25 @@ class APIMessage(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["POST"])
-@permission_classes([AllowAny])
-def login_view(request):
-    username = request.data.get("name")
-    password = request.data.get("password")
-    if (username is None) or (password is None):
-        raise exceptions.AuthenticationFailed(
-            "username and password required"
-        )
+class TokenObtainView(APIView):
+    """Принимает имя и пароль пользователя и возвращает токен
+    для подтверждения подлинности полученных учетных данных."""
 
-    user = User.objects.filter(username=username).first()
-    if user is None:
-        raise exceptions.AuthenticationFailed("user not found")
-    if not user.check_password(password):
-        raise exceptions.AuthenticationFailed("wrong password")
-    access_token = generate_access_token(user)
-    data = {"token": access_token}
-    return Response(data, status=status.HTTP_200_OK)
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        username = request.data.get("name")
+        password = request.data.get("password")
+        if (username is None) or (password is None):
+            raise exceptions.AuthenticationFailed(
+                "username and password required"
+            )
+
+        user = User.objects.filter(username=username).first()
+        if user is None:
+            raise exceptions.AuthenticationFailed("user not found")
+        if not user.check_password(password):
+            raise exceptions.AuthenticationFailed("wrong password")
+        access_token = generate_access_token(user)
+        data = {"token": access_token}
+        return Response(data, status=status.HTTP_200_OK)
