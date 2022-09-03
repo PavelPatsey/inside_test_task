@@ -41,6 +41,16 @@ class AuthTest(TestCase):
         test_json = {"detail": "user not found"}
         self.assertEqual(response.json(), test_json)
 
+    def test_token_obtain_with_incorrect_password(self):
+        """Получение токена с неверным паролем."""
+        url = "/api/auth/token/"
+        name = self.user.username
+        data = {"name": name, "password": "incorrect_password"}
+        response = self.guest_client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        test_json = {"detail": "wrong password"}
+        self.assertEqual(response.json(), test_json)
+
     def test_request_header_with_token(self):
         """Проверка заголовка запроса с полученным токеном."""
         client = APIClient()
