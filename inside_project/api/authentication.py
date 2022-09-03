@@ -20,7 +20,10 @@ class CustomJWTAuthentication(JWTAuthentication):
 
         if len(parts) != 2:
             raise AuthenticationFailed(
-                _("Authorization header must contain two space-delimited values"),
+                (
+                    "The Authorization header must contain "
+                    + "two values separated by an underscore."
+                ),
                 code="bad_authorization_header",
             )
 
