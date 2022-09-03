@@ -15,20 +15,14 @@ class CustomJWTAuthentication(BaseAuthentication):
 
         if not authorization_header:
             return None
-        try:
-            # header format: "Bearer_<access_token>"
-            access_token = authorization_header.split("_", 1)[1]
-            payload = jwt.decode(
-                access_token, settings.SECRET_KEY, algorithms=["HS256"]
-            )
-        except jwt.ExpiredSignatureError:
-            raise exceptions.AuthenticationFailed("Access_token expired")
-        except IndexError:
-            raise exceptions.AuthenticationFailed("Token prefix missing")
-        except jwt.exceptions.DecodeError:
-            raise exceptions.AuthenticationFailed("Invalid token")
-        except BaseException:
-            raise exceptions.AuthenticationFailed("Token error")
+
+        access_token = self.get_raw_token(authorization_header)
+        if access_token is None:
+            return None
+        
+        payload = jwt.decode(
+            access_token, settings.SECRET_KEY, algorithms=["HS256"]
+        )
 
         user = User.objects.filter(id=payload["user_id"]).first()
         if user is None:
@@ -37,3 +31,24 @@ class CustomJWTAuthentication(BaseAuthentication):
             raise exceptions.AuthenticationFailed("User is inactive")
 
         return (user, None)
+
+    def get_raw_token(self, header):
+        """
+        Extracts an unvalidated JSON web token from the given "Authorization"
+        header value.
+        """
+        # header format: "Bearer_<access_token>"
+        parts = header.split("_", 1)
+
+        if len(parts) == 0:
+            return None
+
+        if not parts[0] == "Bearer":
+            return None
+
+        if len(parts) != 2:
+            raise exceptions.AuthenticationFailed(
+                code="bad_authorization_header"
+            )
+
+        return parts[1]
