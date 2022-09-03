@@ -5,4 +5,8 @@ from .models import Message
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    pass
+    list_display = (
+        "pk",
+        "name",
+        "message",
+    )
