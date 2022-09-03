@@ -1,11 +1,9 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.views import (AUTH_HEADER_TYPES,
-                                            TokenObtainPairView, TokenViewBase)
 
 from .models import Message
-from .serializers import MessageSerializer, MyTokenObtainSerializer
+from .serializers import MessageSerializer
 
 
 class APIMessage(APIView):
@@ -21,7 +19,3 @@ class APIMessage(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class MyTokenView(TokenViewBase):
-    serializer_class = MyTokenObtainSerializer
