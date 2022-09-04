@@ -31,10 +31,7 @@ class MessageSerializer(serializers.ModelSerializer):
 
 
 class TokenObtainSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(
-        source="name.username",
-        required=True,
-    )
+    name = serializers.CharField(source="name.username")
 
     class Meta:
         model = User
