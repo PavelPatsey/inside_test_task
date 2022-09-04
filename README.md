@@ -20,7 +20,7 @@
      - Сборка и публикация образа приложения на DockerHub.
 
 ## Образ Docker
-Образ Docker находится в репзитории по адресу:
+Образ Docker находится в репозитории по адресу:
 https://hub.docker.com/repository/docker/pavelpatsey/inside_project
 
 ## Запуск проекта в Докере:
