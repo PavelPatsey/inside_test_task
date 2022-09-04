@@ -25,7 +25,7 @@ https://hub.docker.com/repository/docker/pavelpatsey/inside_project
 
 ## Запуск проекта в Докере:
 
-1. Сколнируйте репозиторий.
+1. Склонируйте репозиторий.
 2. В каталоге ./infra создайте файл .env c аналогичной структурой:
  ```
 DB_ENGINE=django.db.backends.postgresql # указываем, что работаем с postgresql
@@ -59,4 +59,4 @@ docker-compose exec web python manage.py createsuperuser
 ```
 docker-compose exec backend python3 manage.py fill_database_with_test_data
 ```
-Файл с примерами запросов находится по адресу ./curl_commands.
+Файл с примерами запросов находится по адресу ./curl_commands
