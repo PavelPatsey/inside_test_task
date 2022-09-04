@@ -1,5 +1,41 @@
+# получить токен
 curl \
   -X POST \
   -H "Content-Type: application/json" \
-  -d '{"name": "admin", "password": "admin"}' \
+  -d '{"name": "test_user", "password": "test_password"}' \
   http://localhost/api/auth/token/
+# получен ответ
+# {"token":"xxxxx.xxxx.xxxx"}
+
+# сохранить токен (новый)
+TOKEN=$( \
+curl -s -X POST \
+-H 'Accept: application/json' \
+-H 'Content-Type: application/json' \
+--data '{"name":"test_user","password":"test_password"}' \
+http://localhost/api/auth/token/ \
+| jq -r .token \
+)
+
+# вывести токен в консоль
+echo ${TOKEN}
+
+# создать сообщение
+curl \
+-X POST \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer_${TOKEN}" \
+-d '{"name": "test_user", "message": "new message"}' \
+http://localhost/api/messages/
+# получен ответ
+{"name":"test_user","message":"new message"}
+
+# получить историю сообщений
+curl \
+-X POST \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer_${TOKEN}" \
+-d '{"name": "test_user", "message": "history 5"}' \
+http://localhost/api/messages/
+# получен ответ
+[{"name":"test_user","message":"new message"},{"name":"test_user","message":"test message text 14"},{"name":"test_user","message":"test message text 13"},{"name":"test_user","message":"test message text 12"},{"name":"test_user","message":"test message text 11"}]
