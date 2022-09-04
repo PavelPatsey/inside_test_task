@@ -59,4 +59,8 @@ docker-compose exec web python manage.py createsuperuser
 ```
 docker-compose exec backend python3 manage.py fill_database_with_test_data
 ```
-Файл с примерами запросов находится по адресу ./curl_commands
+Файл с примерами запросов находится по адресу ./curl_commands. Должны быть установлены curl и jq, если нет:
+```
+apt install curl
+apt install jq
+```
