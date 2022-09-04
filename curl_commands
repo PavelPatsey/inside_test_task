@@ -40,4 +40,4 @@ curl \
 -d '{"name": "test_user", "message": "history 5"}' \
 http://localhost/api/messages/
 # получен ответ
-[{"name":"test_user","message":"new message"},{"name":"test_user","message":"test message text 14"},{"name":"test_user","message":"test message text 13"},{"name":"test_user","message":"test message text 12"},{"name":"test_user","message":"test message text 11"}]
+# [{"name":"test_user","message":"new message"},{"name":"test_user","message":"test message text 14"},{"name":"test_user","message":"test message text 13"},{"name":"test_user","message":"test message text 12"},{"name":"test_user","message":"test message text 11"}]
