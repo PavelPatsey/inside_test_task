@@ -26,7 +26,7 @@ https://hub.docker.com/repository/docker/pavelpatsey/inside_project
 ## Запуск проекта в Докере:
 
 1. Сколнируйте репозиторий.
-2. В каталоге /infra создайте файл .env c аналогичной структурой:
+2. В каталоге ./infra создайте файл .env c аналогичной структурой:
  ```
 DB_ENGINE=django.db.backends.postgresql # указываем, что работаем с postgresql
 DB_NAME=postgres # имя базы данных
