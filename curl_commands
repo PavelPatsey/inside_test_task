@@ -7,7 +7,7 @@ curl \
 # получен ответ
 # {"token":"xxxxx.xxxx.xxxx"}
 
-# сохранить токен (новый)
+# сгенерировать новый токен и сохранить его значение
 TOKEN=$( \
 curl -s -X POST \
 -H 'Accept: application/json' \
@@ -17,8 +17,10 @@ http://localhost/api/auth/token/ \
 | jq -r .token \
 )
 
-# вывести токен в консоль
+# вывести значение токена в консоль
 echo ${TOKEN}
+# получен ответ
+# xxxxx.xxxx.xxxx
 
 # создать сообщение
 curl \
@@ -28,7 +30,7 @@ curl \
 -d '{"name": "test_user", "message": "new message"}' \
 http://localhost/api/messages/
 # получен ответ
-{"name":"test_user","message":"new message"}
+# {"name":"test_user","message":"new message"}
 
 # получить историю сообщений
 curl \
