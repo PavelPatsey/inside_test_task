@@ -34,7 +34,7 @@ POSTGRES_USER=postgres # логин для подключения к базе д
 POSTGRES_PASSWORD=password_postgres # пароль для подключения к БД (установите свой)
 DB_HOST=db # название сервиса (контейнера)
 DB_PORT=5432 # порт для подключения к БД
-SECRET_KEY=django_secret_key # (установите свой)
+SECRET_KEY=django_secret_key # секретный ключ django (установите свой)
  ```
 3. В командной строке перейдите в папку ./infra, запустите docker-compose в фоновом режиме командой:
 ```
