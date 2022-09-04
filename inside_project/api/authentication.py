@@ -60,6 +60,7 @@ class CustomJWTAuthentication(BaseAuthentication):
         return user
 
     def get_payload(self, access_token):
+        """Возвращает полезную нагрузку (payload) токена"""
         try:
             return jwt.decode(
                 access_token, settings.SECRET_KEY, algorithms=["HS256"]
