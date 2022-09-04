@@ -25,6 +25,7 @@ class APIMessage(APIView):
     где <n> - неотрицательное целое число,
     тогда отправитель получает ответ в виде json <n> последних сообщений.
     """
+
     def post(self, request):
         serializer = MessageSerializer(data=request.data)
         if serializer.is_valid():
