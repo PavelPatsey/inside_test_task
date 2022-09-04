@@ -1,8 +1,8 @@
 # Проект inside_test_task
 
-![inside_test_task workflow](https://github.com/PavelPatsey/inside_test_taskt/actions/workflows/main.yml/badge.svg)
+![inside_test_task workflow](https://github.com/PavelPatsey/inside_test_task/actions/workflows/main.yml/badge.svg)
 
-Реализация тестового задания на позицию Junior Developer. Описание задания находится в директрии ./task_description.
+Реализация тестового задания на позицию Junior Developer. Описание задания находится по адресу ./task_description/Junior_Developer_task_description.txt
 
 ## Стек технологий
 
@@ -13,14 +13,14 @@
 
 ## Реализовано
 
-- кастомная JWT аутентификация;
-- требуемые в задании POST эндпоинты;
+- Кастомная JWT аутентификация.
+- Требуемые в задании POST эндпоинты.
 - GitHub Actions:
-    - Проверка кода на соответствие PEP8 и выполнение тестов, реализованных в проекте;
+    - Проверка кода на соответствие PEP8 и выполнение тестов, реализованных в проекте.
      - Сборка и публикация образа приложения на DockerHub.
 
 ## Образ Docker
-Образ Docker находится в репзитории по адресу:
+Образ Docker находится в репозитории по адресу:
 https://hub.docker.com/repository/docker/pavelpatsey/inside_project
 
 ## Запуск проекта в Докере:
@@ -59,4 +59,4 @@ docker-compose exec web python manage.py createsuperuser
 ```
 docker-compose exec backend python3 manage.py fill_database_with_test_data
 ```
-Файл curl_commands с примерами запросов находися в корневой директории репозитория.
+Файл с примерами запросов находится по адресу ./curl_commands.
