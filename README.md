@@ -2,7 +2,7 @@
 
 ![inside_test_task workflow](https://github.com/PavelPatsey/inside_test_task/actions/workflows/main.yml/badge.svg)
 
-Реализация тестового задания на позицию Junior Developer. Описание задания находится в директрии ./task_description.
+Реализация тестового задания на позицию Junior Developer. Описание задания находится в директории ./task_description.
 
 ## Стек технологий
 
