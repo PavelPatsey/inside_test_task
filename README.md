@@ -1,6 +1,6 @@
 # Проект inside_test_task
 
-![inside_test_task workflow](https://github.com/PavelPatsey/inside_test_taskt/actions/workflows/main.yml/badge.svg)
+![inside_test_task workflow](https://github.com/PavelPatsey/inside_test_task/actions/workflows/main.yml/badge.svg)
 
 Реализация тестового задания на позицию Junior Developer. Описание задания находится в директрии ./task_description.
 
@@ -59,4 +59,4 @@ docker-compose exec web python manage.py createsuperuser
 ```
 docker-compose exec backend python3 manage.py fill_database_with_test_data
 ```
-Файл curl_commands с примерами запросов находися в корневой директории репозитория.
+Файл с примерами запросов находится по адресу ..curl_commands.
