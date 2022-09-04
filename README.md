@@ -42,12 +42,12 @@ docker-compose up -d
 ```
 4. Примените миграции:
 ```
-docker-compose exec web python manage.py migrate
+docker-compose exec backend python manage.py migrate
 
 ```
 5. Чтобы зайти в админку создайте суперпользователя:
 ```
-docker-compose exec web python manage.py createsuperuser
+docker-compose exec backend python manage.py createsuperuser
 
 ```
 Теперь проект доступен по адресу http://localhost/api/messages/
