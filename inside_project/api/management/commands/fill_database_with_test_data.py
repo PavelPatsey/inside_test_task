@@ -9,9 +9,9 @@ class Command(BaseCommand):
     help = "Fill the database with test data"
 
     def handle(self, *args, **kwargs):
-
         test_user = User.objects.create_user(
-            username="test_user", password="test_password"
+            username="test_user",
+            password="test_password",
         )
 
         objects_number = OBJECTS_NUMBER
