@@ -35,7 +35,7 @@ docker build -t inside_project .
 ```
 docker run --name inside_api -it -p 8000:8000 inside_project
 ```
-## Запуск проекта с помощью образа, скаченного из Dockerhub:
+## Запуск проекта с помощью образа из Dockerhub:
 
 1. Склонируйте репозиторий.
 2. Скачайте образ:
@@ -47,10 +47,61 @@ docker image pull pavelpatsey/inside_project:1
 docker run -d --name inside_api_pulled -it -p 8000:8000 pavelpatsey/inside_project:1
 ```
 
-## Endpoints
+## Endpoints:
 
-Проект доступен по адресу http://localhost/api/
+### Аутентификация пользователя.
+`http://localhost:8000/api/auth/token/`\
+POST запрос с телом вида:
+```json
+{
+  "name": "имя отправителя",
+  "password": "пароль"
+}
+```
+В случае удачной аутентификации возвращает JWT токен:
+```json
+{
+  "token": "xxxxx.xxxx.xxxx"
+}
+```
+### Заголовок Authorization.
+Формат заголовка "Authorization" должен быть таким:\
+"Bearer_token"
 
+### Отправка сообщения или запрос истории. 
+`http://localhost:8000/api/messages/`\
+POST запрос с телом вида:
+```json
+{
+  "name": "имя отправителя",
+  "message": "новое сообщение"
+}
+```
+В ответ получает:
+```json
+{
+  "name": "имя отправителя",
+  "message": "новое сообщение"
+}
+```
+В случае, если был отправлен POST запрос вида:
+```json
+{
+  "name": "user_name",
+  "message": "history n"
+}
+```
+где n - целое неотрицательное число, возвращает последние n из БД.
+Например, если n равно 5 в ответ получает:
+```json
+[
+    {"name": "имя отправителя", "message": "новое сообщение"},
+    {"name": "имя отправителя", "message": "test message text 14"},
+    {"name": "имя отправителя", "message": "test message text 13"},
+    {"name": "имя отправителя", "message": "test message text 12"},
+    {"name": "имя отправителя", "message": "test message text 11"},
+]
+```
 ## Curl
 
 Файл с примерами запросов находится по адресу ./curl_commands, можно посмотреть по [ссылке](https://github.com/PavelPatsey/inside_test_task/blob/main/curl_commands). Должны быть установлены curl и jq, если нет:
