@@ -9,7 +9,7 @@
 - проект написан на Python с использованием Django REST Framework;
 - база данных - PostgreSQL;
 - система управления версиями - git;
-- [Docker](https://docs.docker.com/engine/install/ubuntu/), [Dockerfile](https://docs.docker.com/engine/reference/builder/), [Docker Compose](https://docs.docker.com/compose/).
+- [Docker](https://docs.docker.com/engine/install/ubuntu/), [Dockerfile](https://docs.docker.com/engine/reference/builder/).
 
 ## Реализовано
 
@@ -17,48 +17,42 @@
 - Требуемые в задании POST эндпоинты.
 - GitHub Actions:
     - Проверка кода на соответствие PEP8 и выполнение тестов, реализованных в проекте.
-     - Сборка и публикация образа приложения на DockerHub.
+    - Сборка и публикация образа приложения на DockerHub.
 
 ## Образ Docker
 Образ Docker находится в репозитории по адресу:
 https://hub.docker.com/repository/docker/pavelpatsey/inside_project
 
-## Запуск проекта в Docker Compose:
+## Запуск проекта с помощью Dockerfile:
 
 1. Склонируйте репозиторий.
-2. В каталоге ./infra создайте файл .env c аналогичной структурой:
+2. Перейдите в директорию ./inside_project, в которой находится Dockerfile.
+3. Соберите образ:
  ```
-DB_ENGINE=django.db.backends.postgresql # указываем, что работаем с postgresql
-DB_NAME=postgres # имя базы данных
-POSTGRES_USER=postgres # логин для подключения к базе данных
-POSTGRES_PASSWORD=password_postgres # пароль для подключения к БД (установите свой)
-DB_HOST=db # название сервиса (контейнера)
-DB_PORT=5432 # порт для подключения к БД
-SECRET_KEY=django_secret_key # секретный ключ django (установите свой)
+docker build -t inside_project .
  ```
-3. В командной строке перейдите в папку ./infra, запустите docker-compose в фоновом режиме командой:
+4. Запустите контейнер:
 ```
-docker-compose up -d
+docker run --name inside_api -it -p 8000:8000 inside_project
 ```
-4. Примените миграции:
-```
-docker-compose exec backend python manage.py migrate
+## Запуск проекта с помощью образа, скаченного из Dockerhub:
 
+1. Склонируйте репозиторий.
+2. Скачайте образ:
+ ```
+docker image pull pavelpatsey/inside_project:1
+ ```
+4. Запустите контейнер:
 ```
-5. Чтобы зайти в админку создайте суперпользователя:
+docker run -d --name inside_api_pulled -it -p 8000:8000 pavelpatsey/inside_project:1
 ```
-docker-compose exec backend python manage.py createsuperuser
 
-```
-Теперь проект доступен по адресу http://localhost/api/messages/
+## Endpoints
 
-Админка доступна по адресу http://localhost/admin/
+Проект доступен по адресу http://localhost/api/
 
-6. Чтобы протестировать работу приложения заполните БД тестовыми данными:
+## Curl
 
-```
-docker-compose exec backend python3 manage.py fill_database_with_test_data
-```
 Файл с примерами запросов находится по адресу ./curl_commands, можно посмотреть по [ссылке](https://github.com/PavelPatsey/inside_test_task/blob/main/curl_commands). Должны быть установлены curl и jq, если нет:
 ```
 apt install curl
