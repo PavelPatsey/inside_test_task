@@ -33,7 +33,7 @@ docker build -t inside_project .
  ```
 4. Запустите контейнер:
 ```
-docker run --name inside_api -it -p 8000:8000 inside_project
+docker run -d --name inside_api -it -p 8000:8000 inside_project
 ```
 ## Запуск проекта с помощью образа из Dockerhub:
 
