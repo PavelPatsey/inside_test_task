@@ -29,11 +29,11 @@ curl \
 -X POST \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer_${TOKEN}" \
--d '{"name": "имя отправителя", "message": "new message"}' \
+-d '{"name": "имя отправителя", "message": "новое сообщение"}' \
 http://localhost:8000/api/messages/
 
 # получен ответ
-# {"name":"test_user","message":"new message"}
+# {"name":"test_user","message":"новое сообщение"}
 
 # получить историю сообщений
 curl \
@@ -44,4 +44,4 @@ curl \
 http://localhost:8000/api/messages/
 
 # получен ответ
-# [{"name":"имя отправителя","message":"new message"},{"name":"имя отправителя","message":"test message text 14"},{"name":"имя отправителя","message":"test message text 13"},{"name":"имя отправителя","message":"test message text 12"},{"name":"имя отправителя","message":"test message text 11"}]
+# [{"name":"имя отправителя","message":"новое сообщение"},{"name":"имя отправителя","message":"test message text 14"},{"name":"имя отправителя","message":"test message text 13"},{"name":"имя отправителя","message":"test message text 12"},{"name":"имя отправителя","message":"test message text 11"}]
