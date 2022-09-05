@@ -9,3 +9,5 @@ RUN pip3 install -r /app/requirements.txt --no-cache-dir
 COPY ./ /app
 
 WORKDIR /app
+
+CMD ["gunicorn", "inside_project.wsgi:application", "--bind", "0:8000"]

@@ -10,8 +10,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         test_user = User.objects.create_user(
-            username="test_user",
-            password="test_password",
+            username="имя отправителя",
+            password="пароль",
         )
 
         objects_number = OBJECTS_NUMBER
