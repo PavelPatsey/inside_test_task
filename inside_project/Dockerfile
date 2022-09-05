@@ -2,7 +2,7 @@ FROM python:3.8-slim
 
 RUN mkdir /app
 
-COPY ./db.sqlite3 /app
+COPY db.sqlite3 /app
 
 COPY requirements.txt /app
 
