@@ -8,8 +8,8 @@ RUN pip3 install -r /app/requirements.txt --no-cache-dir
 
 COPY ./ /app
 
-COPY db.sqlite3 /app
+COPY ./db.sqlite3 /app
 
 WORKDIR /app
 
-CMD ["gunicorn", "inside_project.wsgi:application", "--bind", "0:8000"]
+CMD ["python3", "manage.py", "runserver", "0:8000"]
