@@ -23,7 +23,7 @@
 Образ Docker находится в репозитории по адресу:
 https://hub.docker.com/repository/docker/pavelpatsey/inside_project
 
-## Запуск проекта в Докере:
+## Запуск проекта в Docker Compose:
 
 1. Склонируйте репозиторий.
 2. В каталоге ./infra создайте файл .env c аналогичной структурой:
