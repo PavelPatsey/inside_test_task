@@ -37,12 +37,11 @@ docker run -d --name inside_api -it -p 8000:8000 inside_project
 ```
 ## Запуск проекта с помощью образа из Dockerhub:
 
-1. Склонируйте репозиторий.
-2. Скачайте образ:
+1. Скачайте образ:
  ```
 docker image pull pavelpatsey/inside_project:1
  ```
-4. Запустите контейнер:
+2. Запустите контейнер:
 ```
 docker run -d --name inside_api_pulled -it -p 8000:8000 pavelpatsey/inside_project:1
 ```
