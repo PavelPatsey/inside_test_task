@@ -59,8 +59,65 @@ docker-compose exec backend python manage.py createsuperuser
 ```
 docker-compose exec backend python3 manage.py fill_database_with_test_data
 ```
+
+## Curl
 Файл с примерами запросов находится по адресу ./curl_commands, можно посмотреть по [ссылке](https://github.com/PavelPatsey/inside_test_task/blob/main/curl_commands). Должны быть установлены curl и jq, если нет:
 ```
 apt install curl
 apt install jq
+```
+## Endpoints:
+
+### Аутентификация пользователя.
+`http://localhost:8000/api/auth/token/`\
+POST запрос с телом вида:
+```json
+{
+  "name": "имя отправителя",
+  "password": "пароль"
+}
+```
+В случае удачной аутентификации возвращает JWT токен:
+```json
+{
+  "token": "xxxxx.xxxx.xxxx"
+}
+```
+### Заголовок Authorization.
+Формат заголовка "Authorization" должен быть таким:\
+"Bearer_token"
+
+### Отправка сообщения или запрос истории. 
+`http://localhost:8000/api/messages/`\
+POST запрос с телом вида:
+```json
+{
+  "name": "имя отправителя",
+  "message": "новое сообщение"
+}
+```
+В ответ получает:
+```json
+{
+  "name": "имя отправителя",
+  "message": "новое сообщение"
+}
+```
+В случае, если отправлен POST запрос вида:
+```json
+{
+  "name": "user_name",
+  "message": "history n"
+}
+```
+где n - целое неотрицательное число, возвращает последние n из БД.
+Например, если n равно 5 в ответ получает:
+```json
+[
+    {"name": "имя отправителя", "message": "новое сообщение"},
+    {"name": "имя отправителя", "message": "test message text 14"},
+    {"name": "имя отправителя", "message": "test message text 13"},
+    {"name": "имя отправителя", "message": "test message text 12"},
+    {"name": "имя отправителя", "message": "test message text 11"},
+]
 ```
