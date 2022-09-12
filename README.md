@@ -35,17 +35,6 @@ docker build -t inside_project .
 ```
 docker run -d --name inside_api -it -p 8000:8000 inside_project
 ```
-## Запуск проекта с помощью образа из Dockerhub:
-
-1. Скачайте образ:
- ```
-docker image pull pavelpatsey/inside_project:1
- ```
-2. Запустите контейнер:
-```
-docker run -d --name inside_api_pulled -it -p 8000:8000 pavelpatsey/inside_project:1
-```
-
 ## Endpoints:
 
 ### Аутентификация пользователя.
