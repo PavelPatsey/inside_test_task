@@ -11,8 +11,10 @@
 - система управления версиями - git;
 - [Docker](https://docs.docker.com/engine/install/ubuntu/), [Dockerfile](https://docs.docker.com/engine/reference/builder/), [Docker Compose](https://docs.docker.com/compose/).
 
-## Реализовано
+## Решение с запуском только контейнера с проектом:
+[ветка Dockerfile](https://github.com/PavelPatsey/inside_test_task/tree/feature/docker_only)
 
+## Реализовано
 - Кастомная JWT аутентификация.
 - Требуемые в задании POST эндпоинты.
 - GitHub Actions:
