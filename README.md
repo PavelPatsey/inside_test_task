@@ -2,7 +2,7 @@
 
 ![inside_test_task workflow](https://github.com/PavelPatsey/inside_test_task/actions/workflows/main.yml/badge.svg)
 
-API на оснвое Django REST Framework. Реализация тестового задания на позицию Junior Developer. Описание задания находится по адресу ./Junior_Developer_task_description.txt, можно посмотреть по [ссылке](https://github.com/PavelPatsey/inside_test_task/blob/main/Junior_Developer_task_description.txt).
+API на основе Django REST Framework. Реализация тестового задания на позицию Junior Developer. Описание задания находится по адресу ./Junior_Developer_task_description.txt, можно посмотреть по [ссылке](https://github.com/PavelPatsey/inside_test_task/blob/main/Junior_Developer_task_description.txt).
 
 ## Стек технологий
 
